@@ -9,12 +9,52 @@
     <version>7</version>
   </parent>
 
-  <groupId>org.jruby</groupId>
+  <groupId>puppetlabs</groupId>
   <artifactId>jruby-parent</artifactId>
-  <version>1.7.26-SNAPSHOT</version>
+  <version>1.7.26-puppetlabs-1-SNAPSHOT</version>
   <packaging>pom</packaging>
 
   <name>JRuby</name>
+
+  <!-- __________________________________________________________________________________________ -->
+  <!-- begin custom puppetlabs modifications, to deploy artifacts to a non-standard artifact repo -->
+  <!-- __________________________________________________________________________________________ -->
+
+  <!-- NOTE: to use any of the following you'll need to set up credentials for the
+       appropriate servers in ~/.m2/settings.xml -->
+
+  <!-- this setup would allow us to deploy to private nexus, but that would break OSS CI jobs -->
+  <!--<distributionManagement>-->
+  <!--<snapshotRepository>-->
+  <!--<id>pl-nexus-snapshots</id>-->
+  <!--<name>PL Nexus Snapshots</name>-->
+  <!--<url>http://nexus.delivery.puppetlabs.net/content/repositories/snapshots/</url>-->
+  <!--</snapshotRepository>-->
+  <!--<repository>-->
+  <!--<id>pl-nexus-releases</id>-->
+  <!--<name>PL Nexus Releases</name>-->
+  <!--<url>http://nexus.delivery.puppetlabs.net/content/repositories/snapshots/</url>-->
+  <!--</repository>-->
+  <!--</distributionManagement>-->
+
+  <!-- this setup deploys to clojars, which is publicly available -->
+  <distributionManagement>
+    <snapshotRepository>
+      <id>clojars</id>
+      <name>Clojars repository</name>
+      <url>https://clojars.org/repo</url>
+    </snapshotRepository>
+    <repository>
+      <id>clojars</id>
+      <name>Clojars repository</name>
+      <url>https://clojars.org/repo</url>
+    </repository>
+  </distributionManagement>
+
+  <!-- __________________________________________________________________________________________ -->
+  <!-- end custom puppetlabs modifications, to deploy artifacts to a non-standard artifact repo -->
+  <!-- __________________________________________________________________________________________ -->
+
 
   <repositories>
     <repository>
@@ -29,11 +69,11 @@
     </repository>
   </repositories>
 
-  <modules>
-    <module>ext</module>
-    <module>core</module>
-    <module>lib</module>
-  </modules>
+  <!--<modules>-->
+    <!--<module>ext</module>-->
+    <!--<module>core</module>-->
+    <!--<module>lib</module>-->
+  <!--</modules>-->
 
   <description>
     JRuby is the effort to recreate the Ruby (http://www.ruby-lang.org) interpreter in Java.
@@ -177,13 +217,13 @@
     <url>https://github.com/jruby/jruby/issues</url>
   </issueManagement>
 
-  <distributionManagement>
-    <site>
-      <id>gh-pages</id>
-      <name>JRuby Site</name>
-      <url>https://github.com/jruby/jruby</url>
-    </site>
-  </distributionManagement>
+  <!--<distributionManagement>-->
+    <!--<site>-->
+      <!--<id>gh-pages</id>-->
+      <!--<name>JRuby Site</name>-->
+      <!--<url>https://github.com/jruby/jruby</url>-->
+    <!--</site>-->
+  <!--</distributionManagement>-->
 
   <pluginRepositories>
     <pluginRepository>
@@ -437,203 +477,203 @@
   </dependencyManagement>
 
   <profiles>
-    <profile>
-      <id>bootstrap</id>
-      <modules>
-        <module>test</module>
-      </modules>
-    </profile>
-    <profile>
-      <id>test</id>
-      <properties>
-	<invoker.skip>false</invoker.skip>
-      </properties>
-      <modules>
-        <module>test</module>
-      </modules>
-    </profile>
-    <profile>
-      <id>gems</id>
-      <modules>
-        <module>maven</module>
-      </modules>
-    </profile>
-    <profile>
-      <id>docs</id>
-      <modules>
-        <module>docs</module>
-      </modules>
-    </profile>
-    <profile>
-      <id>main</id>
-      <modules>
-        <module>maven</module>
-      </modules>
-      <build>
-	<defaultGoal>install</defaultGoal>
-	<pluginManagement>
-	  <plugins>
-            <plugin>
-              <artifactId>maven-surefire-plugin</artifactId>
-              <version>2.15</version>
-	      <configuration>
-		<skipTests>true</skipTests>
-	      </configuration>
-            </plugin>
-	  </plugins>
-	</pluginManagement>
-      </build>
-    </profile>
-    <profile>
-      <id>osgi</id>
-      <modules>
-        <module>maven</module>
-      </modules>
-      <properties>
-	<invoker.skip>false</invoker.skip>
-	<its.osgi>no-excludes/pom.xml</its.osgi>
-      </properties>
-      <build>
-	<defaultGoal>install</defaultGoal>
-	<plugins>
-          <plugin>
-            <artifactId>maven-invoker-plugin</artifactId>
-            <configuration>
-              <pomIncludes>
-                <pomInclude>osgi*/pom.xml</pomInclude>
-	      </pomIncludes>
-	    </configuration>
-	  </plugin>
-	</plugins>
-      </build>
-    </profile>
-    <profile>
-      <id>j2ee</id>
-      <modules>
-        <module>maven</module>
-      </modules>
-      <properties>
-	<invoker.skip>false</invoker.skip>
-	<its.j2ee>no-excludes/pom.xml</its.j2ee>
-      </properties>
-      <build>
-	<defaultGoal>install</defaultGoal>
-	<plugins>
-          <plugin>
-            <artifactId>maven-invoker-plugin</artifactId>
-            <configuration>
-              <pomIncludes>
-                <pomInclude>j2ee*/pom.xml</pomInclude>
-	      </pomIncludes>
-	    </configuration>
-	  </plugin>
-	</plugins>
-      </build>
-    </profile>
-    <profile>
-      <id>single invoker test</id>
-      <activation>
-        <property>
-          <name>invoker.test</name>
-	</property>
-      </activation>
-      <properties>
-	<invoker.skip>false</invoker.skip>
-      </properties>
-    </profile>
-    <profile>
-      <id>jruby-jars</id>
-      <modules>
-        <module>maven</module>
-      </modules>
-      <build>
-	<defaultGoal>install</defaultGoal>
-	<pluginManagement>
-	  <plugins>
-            <plugin>
-              <artifactId>maven-surefire-plugin</artifactId>
-              <version>2.15</version>
-	      <configuration>
-		<skipTests>true</skipTests>
-	      </configuration>
-            </plugin>
-	  </plugins>
-	</pluginManagement>
-      </build>
-    </profile>
-    <profile>
-      <id>complete</id>
-      <modules>
-        <module>maven</module>
-      </modules>
-      <build>
-	<defaultGoal>install</defaultGoal>
-	<pluginManagement>
-	  <plugins>
-            <plugin>
-              <artifactId>maven-surefire-plugin</artifactId>
-              <version>2.15</version>
-	      <configuration>
-		<skipTests>true</skipTests>
-	      </configuration>
-            </plugin>
-	  </plugins>
-	</pluginManagement>
-      </build>
-    </profile>
-    <profile>
-      <id>rake-plugin</id>
-      <modules>
-        <module>maven</module>
-      </modules>
-      <build>
-	<defaultGoal>install</defaultGoal>
-      </build>
-    </profile>
-    <profile>
-      <id>dist</id>
-      <modules>
-        <module>maven</module>
-      </modules>
-    </profile>
-    <profile>
-      <id>all</id>
-      <modules>
-	<module>test</module>
-        <module>docs</module>
-        <module>maven</module>
-      </modules>
-      <build>
-	<defaultGoal>install</defaultGoal>
-      </build>
-    </profile>
-    <profile>
-      <id>release</id>
-      <modules>
-        <module>maven</module>
-      </modules>
-    </profile>
-    <profile>
-      <id>snapshots</id>
-      <activation>
-        <file>
-          <exists>/builds/snapshots</exists>
-        </file>
-      </activation>
-      <build>
-        <defaultGoal>deploy</defaultGoal>
-      </build>
-      <distributionManagement>
-        <repository>
-          <id>local releases</id>
-          <url>file:/builds/snapshots/maven</url>
-        </repository>
-        <snapshotRepository>
-          <id>local snapshots</id>
-          <url>file:/builds/snapshots/maven</url>
-        </snapshotRepository>
-      </distributionManagement>
-    </profile>
+    <!--<profile>-->
+      <!--<id>bootstrap</id>-->
+      <!--<modules>-->
+        <!--<module>test</module>-->
+      <!--</modules>-->
+    <!--</profile>-->
+    <!--<profile>-->
+      <!--<id>test</id>-->
+      <!--<properties>-->
+	<!--<invoker.skip>false</invoker.skip>-->
+      <!--</properties>-->
+      <!--<modules>-->
+        <!--<module>test</module>-->
+      <!--</modules>-->
+    <!--</profile>-->
+    <!--<profile>-->
+      <!--<id>gems</id>-->
+      <!--<modules>-->
+        <!--<module>maven</module>-->
+      <!--</modules>-->
+    <!--</profile>-->
+    <!--<profile>-->
+      <!--<id>docs</id>-->
+      <!--<modules>-->
+        <!--<module>docs</module>-->
+      <!--</modules>-->
+    <!--</profile>-->
+    <!--<profile>-->
+      <!--<id>main</id>-->
+      <!--<modules>-->
+        <!--<module>maven</module>-->
+      <!--</modules>-->
+      <!--<build>-->
+	<!--<defaultGoal>install</defaultGoal>-->
+	<!--<pluginManagement>-->
+	  <!--<plugins>-->
+            <!--<plugin>-->
+              <!--<artifactId>maven-surefire-plugin</artifactId>-->
+              <!--<version>2.15</version>-->
+	      <!--<configuration>-->
+		<!--<skipTests>true</skipTests>-->
+	      <!--</configuration>-->
+            <!--</plugin>-->
+	  <!--</plugins>-->
+	<!--</pluginManagement>-->
+      <!--</build>-->
+    <!--</profile>-->
+    <!--<profile>-->
+      <!--<id>osgi</id>-->
+      <!--<modules>-->
+        <!--<module>maven</module>-->
+      <!--</modules>-->
+      <!--<properties>-->
+	<!--<invoker.skip>false</invoker.skip>-->
+	<!--<its.osgi>no-excludes/pom.xml</its.osgi>-->
+      <!--</properties>-->
+      <!--<build>-->
+	<!--<defaultGoal>install</defaultGoal>-->
+	<!--<plugins>-->
+          <!--<plugin>-->
+            <!--<artifactId>maven-invoker-plugin</artifactId>-->
+            <!--<configuration>-->
+              <!--<pomIncludes>-->
+                <!--<pomInclude>osgi*/pom.xml</pomInclude>-->
+	      <!--</pomIncludes>-->
+	    <!--</configuration>-->
+	  <!--</plugin>-->
+	<!--</plugins>-->
+      <!--</build>-->
+    <!--</profile>-->
+    <!--<profile>-->
+      <!--<id>j2ee</id>-->
+      <!--<modules>-->
+        <!--<module>maven</module>-->
+      <!--</modules>-->
+      <!--<properties>-->
+	<!--<invoker.skip>false</invoker.skip>-->
+	<!--<its.j2ee>no-excludes/pom.xml</its.j2ee>-->
+      <!--</properties>-->
+      <!--<build>-->
+	<!--<defaultGoal>install</defaultGoal>-->
+	<!--<plugins>-->
+          <!--<plugin>-->
+            <!--<artifactId>maven-invoker-plugin</artifactId>-->
+            <!--<configuration>-->
+              <!--<pomIncludes>-->
+                <!--<pomInclude>j2ee*/pom.xml</pomInclude>-->
+	      <!--</pomIncludes>-->
+	    <!--</configuration>-->
+	  <!--</plugin>-->
+	<!--</plugins>-->
+      <!--</build>-->
+    <!--</profile>-->
+    <!--<profile>-->
+      <!--<id>single invoker test</id>-->
+      <!--<activation>-->
+        <!--<property>-->
+          <!--<name>invoker.test</name>-->
+	<!--</property>-->
+      <!--</activation>-->
+      <!--<properties>-->
+	<!--<invoker.skip>false</invoker.skip>-->
+      <!--</properties>-->
+    <!--</profile>-->
+    <!--<profile>-->
+      <!--<id>jruby-jars</id>-->
+      <!--<modules>-->
+        <!--<module>maven</module>-->
+      <!--</modules>-->
+      <!--<build>-->
+	<!--<defaultGoal>install</defaultGoal>-->
+	<!--<pluginManagement>-->
+	  <!--<plugins>-->
+            <!--<plugin>-->
+              <!--<artifactId>maven-surefire-plugin</artifactId>-->
+              <!--<version>2.15</version>-->
+	      <!--<configuration>-->
+		<!--<skipTests>true</skipTests>-->
+	      <!--</configuration>-->
+            <!--</plugin>-->
+	  <!--</plugins>-->
+	<!--</pluginManagement>-->
+      <!--</build>-->
+    <!--</profile>-->
+    <!--<profile>-->
+      <!--<id>complete</id>-->
+      <!--<modules>-->
+        <!--<module>maven</module>-->
+      <!--</modules>-->
+      <!--<build>-->
+	<!--<defaultGoal>install</defaultGoal>-->
+	<!--<pluginManagement>-->
+	  <!--<plugins>-->
+            <!--<plugin>-->
+              <!--<artifactId>maven-surefire-plugin</artifactId>-->
+              <!--<version>2.15</version>-->
+	      <!--<configuration>-->
+		<!--<skipTests>true</skipTests>-->
+	      <!--</configuration>-->
+            <!--</plugin>-->
+	  <!--</plugins>-->
+	<!--</pluginManagement>-->
+      <!--</build>-->
+    <!--</profile>-->
+    <!--<profile>-->
+      <!--<id>rake-plugin</id>-->
+      <!--<modules>-->
+        <!--<module>maven</module>-->
+      <!--</modules>-->
+      <!--<build>-->
+	<!--<defaultGoal>install</defaultGoal>-->
+      <!--</build>-->
+    <!--</profile>-->
+    <!--<profile>-->
+      <!--<id>dist</id>-->
+      <!--<modules>-->
+        <!--<module>maven</module>-->
+      <!--</modules>-->
+    <!--</profile>-->
+    <!--<profile>-->
+      <!--<id>all</id>-->
+      <!--<modules>-->
+	<!--<module>test</module>-->
+        <!--<module>docs</module>-->
+        <!--<module>maven</module>-->
+      <!--</modules>-->
+      <!--<build>-->
+	<!--<defaultGoal>install</defaultGoal>-->
+      <!--</build>-->
+    <!--</profile>-->
+    <!--<profile>-->
+      <!--<id>release</id>-->
+      <!--<modules>-->
+        <!--<module>maven</module>-->
+      <!--</modules>-->
+    <!--</profile>-->
+    <!--<profile>-->
+      <!--<id>snapshots</id>-->
+      <!--<activation>-->
+        <!--<file>-->
+          <!--<exists>/builds/snapshots</exists>-->
+        <!--</file>-->
+      <!--</activation>-->
+      <!--<build>-->
+        <!--<defaultGoal>deploy</defaultGoal>-->
+      <!--</build>-->
+      <!--<distributionManagement>-->
+        <!--<repository>-->
+          <!--<id>local releases</id>-->
+          <!--<url>file:/builds/snapshots/maven</url>-->
+        <!--</repository>-->
+        <!--<snapshotRepository>-->
+          <!--<id>local snapshots</id>-->
+          <!--<url>file:/builds/snapshots/maven</url>-->
+        <!--</snapshotRepository>-->
+      <!--</distributionManagement>-->
+    <!--</profile>-->
   </profiles>
   <reporting>
       <plugins>
