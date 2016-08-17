@@ -2,9 +2,9 @@
   <modelVersion>4.0.0</modelVersion>
 
   <parent>
-    <groupId>org.jruby</groupId>
+    <groupId>puppetlabs</groupId>
     <artifactId>jruby-parent</artifactId>
-    <version>1.7.26-SNAPSHOT</version>
+    <version>1.7.26-puppetlabs-1-SNAPSHOT</version>
   </parent>
   <artifactId>jruby-core</artifactId>
   <packaging>jar</packaging>
@@ -16,6 +16,45 @@
     <developerConnection>scm:git:ssh://git@github.com/jruby/jruby.git</developerConnection>
     <url>http://github.com/jruby/jruby</url>
   </scm>
+
+  <!-- __________________________________________________________________________________________ -->
+  <!-- begin custom puppetlabs modifications, to deploy artifacts to a non-standard artifact repo -->
+  <!-- __________________________________________________________________________________________ -->
+
+  <!-- NOTE: to use any of the following you'll need to set up credentials for the
+       appropriate servers in ~/.m2/settings.xml -->
+
+  <!-- this setup would allow us to deploy to private nexus, but that would break OSS CI jobs -->
+  <!--<distributionManagement>-->
+    <!--<snapshotRepository>-->
+      <!--<id>pl-nexus-snapshots</id>-->
+      <!--<name>PL Nexus Snapshots</name>-->
+      <!--<url>http://nexus.delivery.puppetlabs.net/content/repositories/snapshots/</url>-->
+    <!--</snapshotRepository>-->
+    <!--<repository>-->
+      <!--<id>pl-nexus-releases</id>-->
+      <!--<name>PL Nexus Releases</name>-->
+      <!--<url>http://nexus.delivery.puppetlabs.net/content/repositories/snapshots/</url>-->
+    <!--</repository>-->
+  <!--</distributionManagement>-->
+
+  <!-- this setup deploys to clojars, which is publicly available -->
+  <distributionManagement>
+    <snapshotRepository>
+      <id>clojars</id>
+      <name>Clojars repository</name>
+      <url>https://clojars.org/repo</url>
+    </snapshotRepository>
+    <repository>
+      <id>clojars</id>
+      <name>Clojars repository</name>
+      <url>https://clojars.org/repo</url>
+    </repository>
+  </distributionManagement>
+
+  <!-- __________________________________________________________________________________________ -->
+  <!-- end custom puppetlabs modifications, to deploy artifacts to a non-standard artifact repo -->
+  <!-- __________________________________________________________________________________________ -->
 
   <dependencies>
     <dependency>

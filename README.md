@@ -1,5 +1,10 @@
 # JRuby -  A Java implementation of the Ruby language
 
+NOTE: This branch from the puppetlabs fork includes some minor packaging
+ changes that allow us to release the jruby-core and jruby-stdlib jars
+ independently from the upstream JRuby release cycle.  For more info
+ see [README-PUPPETLABS.md](./README-PUPPETLABS.md)
+
 [![Build Status](https://travis-ci.org/jruby/jruby.png?branch=jruby-1_7)](https://travis-ci.org/jruby/jruby/branches)
 
 Authors: Stefan Matthias Aust, Anders Bengtsson, Geert Bevin,
