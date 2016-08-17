@@ -5,6 +5,13 @@ for `jruby-stdlib` and `jruby-core`, independently from the upstream JRuby
 release cycle.  This was necessary in order to get access to some critical fixes
 that have been merged upstream but haven't yet been released.
 
+> Note: The approach below does not currently appear to result in a jruby-stdlib
+> jar being built with all of the proper content.  In particular, the
+> jruby-stdlib jar appears to omit the `META-INF/jruby.home/ruby/gems`
+> directory, which includes important gems needed for startup like
+> `jar-dependencies`.  This problem should be rectified before any Puppet
+> projects might make use of these jars.
+
 The files changed are:
 
 ```
