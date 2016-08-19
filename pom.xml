@@ -9,7 +9,7 @@
     <version>7</version>
   </parent>
 
-  <groupId>puppetlabs</groupId>
+  <groupId>puppetlabs.org.jruby</groupId>
   <artifactId>jruby-parent</artifactId>
   <version>1.7.26-puppetlabs-1-SNAPSHOT</version>
   <packaging>pom</packaging>
@@ -50,6 +50,15 @@
       <url>https://clojars.org/repo</url>
     </repository>
   </distributionManagement>
+
+  <!-- these are the modules we need in order to successfully build
+       jruby-core and jruby-stdlib -->
+  <modules>
+    <module>ext</module>
+    <module>core</module>
+    <module>lib</module>
+    <module>maven</module>
+  </modules>
 
   <!-- __________________________________________________________________________________________ -->
   <!-- end custom puppetlabs modifications, to deploy artifacts to a non-standard artifact repo -->
