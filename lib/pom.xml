@@ -10,9 +10,9 @@ DO NOT MODIFIY - GENERATED CODE
     xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
   <modelVersion>4.0.0</modelVersion>
   <parent>
-    <groupId>org.jruby</groupId>
+    <groupId>puppetlabs.org.jruby</groupId>
     <artifactId>jruby-parent</artifactId>
-    <version>1.7.26-SNAPSHOT</version>
+    <version>1.7.26-puppetlabs-1-SNAPSHOT</version>
   </parent>
   <artifactId>jruby-lib</artifactId>
   <packaging>pom</packaging>
@@ -25,9 +25,9 @@ DO NOT MODIFIY - GENERATED CODE
   </properties>
   <dependencies>
     <dependency>
-      <groupId>org.jruby</groupId>
+      <groupId>puppetlabs.org.jruby</groupId>
       <artifactId>jruby-core</artifactId>
-      <version>1.7.26-SNAPSHOT</version>
+      <version>${project.parent.version}</version>
     </dependency>
     <dependency>
       <groupId>rubygems</groupId>
