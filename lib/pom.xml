@@ -12,7 +12,7 @@ DO NOT MODIFIY - GENERATED CODE
   <parent>
     <groupId>puppetlabs.org.jruby</groupId>
     <artifactId>jruby-parent</artifactId>
-    <version>1.7.26-puppetlabs-rc1-SNAPSHOT</version>
+    <version>1.7.26-puppetlabs-rc2-SNAPSHOT</version>
   </parent>
   <artifactId>jruby-lib</artifactId>
   <packaging>pom</packaging>
